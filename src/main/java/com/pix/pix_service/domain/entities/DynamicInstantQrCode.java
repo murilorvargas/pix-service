@@ -8,46 +8,49 @@ public class DynamicInstantQrCode {
     private Long id;
     private String dynamicInstantQrCodeKey;
     private String correlationId;
-    private Long qrCodePayerId;
     private BigDecimal amount;
     private String description;
     private Integer expiration;
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
+    private QrCodePayer qrCodePayer;
+    private DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus;
 
     public DynamicInstantQrCode() {
     }
 
     public DynamicInstantQrCode(
-            Long id,
             String dynamicInstantQrCodeKey,
             String correlationId,
-            Long qrCodePayerId,
             BigDecimal amount,
             String description,
-            Integer expiration
+            Integer expiration,
+            QrCodePayer qrCodePayer,
+            DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus
     ) {
-        this.id = id;
         this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
         this.correlationId = correlationId;
-        this.qrCodePayerId = qrCodePayerId;
         this.amount = amount;
         this.description = description;
         this.expiration = expiration;
+        this.qrCodePayer = qrCodePayer;
+        this.dynamicInstantQrCodeStatus = dynamicInstantQrCodeStatus;
     }
 
     public DynamicInstantQrCode(
             Long id,
             String dynamicInstantQrCodeKey,
             String correlationId,
-            Long qrCodePayerId,
             BigDecimal amount,
             String description,
             Integer expiration,
             LocalDateTime updatedAt,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            QrCodePayer qrCodePayer,
+            DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus
     ) {
-        this(id, dynamicInstantQrCodeKey, correlationId, qrCodePayerId, amount, description, expiration);
+        this(dynamicInstantQrCodeKey, correlationId, amount, description, expiration, qrCodePayer, dynamicInstantQrCodeStatus);
+        this.id = id;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
     }
@@ -74,14 +77,6 @@ public class DynamicInstantQrCode {
 
     public void setCorrelationId(String correlationId) {
         this.correlationId = correlationId;
-    }
-
-    public Long getQrCodePayerId() {
-        return qrCodePayerId;
-    }
-
-    public void setQrCodePayerId(Long qrCodePayerId) {
-        this.qrCodePayerId = qrCodePayerId;
     }
 
     public BigDecimal getAmount() {
@@ -122,5 +117,21 @@ public class DynamicInstantQrCode {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public QrCodePayer getQrCodePayer() {
+        return qrCodePayer;
+    }
+
+    public void setQrCodePayer(QrCodePayer qrCodePayer) {
+        this.qrCodePayer = qrCodePayer;
+    }
+
+    public DynamicInstantQrCodeStatus getDynamicInstantQrCodeStatus() {
+        return dynamicInstantQrCodeStatus;
+    }
+
+    public void setDynamicInstantQrCodeStatus(DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus) {
+        this.dynamicInstantQrCodeStatus = dynamicInstantQrCodeStatus;
     }
 }

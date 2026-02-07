@@ -4,27 +4,33 @@ import com.pix.pix_service.application.dtos.input.CreateDynamicInstantQrCodeDTO;
 import com.pix.pix_service.application.dtos.input.QrCodePayerDTO;
 import com.pix.pix_service.domain.UnitOfWork;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCode;
+import com.pix.pix_service.domain.entities.DynamicInstantQrCodeStatus;
 import com.pix.pix_service.domain.entities.QrCodePayer;
 import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeRepository;
+import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeStatusRepository;
 import com.pix.pix_service.domain.repositories.QrCodePayerRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class DynamicInstantQrCodeService {
 
     private final UnitOfWork unitOfWork;
+    private final DynamicInstantQrCodeStatusRepository dynamicInstantQrCodeStatusRepository;
     private final QrCodePayerRepository qrCodePayerRepository;
     private final DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository;
 
     public DynamicInstantQrCodeService(
             UnitOfWork unitOfWork,
+            DynamicInstantQrCodeStatusRepository dynamicInstantQrCodeStatusRepository,
             QrCodePayerRepository qrCodePayerRepository,
             DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository
     ) {
         this.unitOfWork = unitOfWork;
+        this.dynamicInstantQrCodeStatusRepository = dynamicInstantQrCodeStatusRepository;
         this.qrCodePayerRepository = qrCodePayerRepository;
         this.dynamicInstantQrCodeRepository = dynamicInstantQrCodeRepository;
     }
@@ -32,22 +38,25 @@ public class DynamicInstantQrCodeService {
     public DynamicInstantQrCode createDynamicInstantQrCode(CreateDynamicInstantQrCodeDTO dto) {
         unitOfWork.begin();
         try {
+            DynamicInstantQrCodeStatus pendingDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
+                    .findByEnumerator("pending")
+                    .orElseThrow(() -> new RuntimeException("Status 'pending' not found!"));
+
             QrCodePayerDTO payerDto = dto.qrCodePayer();
-            QrCodePayer payer = qrCodePayerRepository.save(new QrCodePayer(
-                    null,
+            QrCodePayer qrCodePayer = qrCodePayerRepository.save(new QrCodePayer(
                     UUID.randomUUID().toString(),
                     payerDto.name(),
                     payerDto.documentNumber()
             ));
 
             DynamicInstantQrCode qrCode = dynamicInstantQrCodeRepository.save(new DynamicInstantQrCode(
-                    null,
                     UUID.randomUUID().toString(),
                     dto.correlationId(),
-                    payer.getId(),
                     BigDecimal.valueOf(dto.amount()),
                     dto.description(),
-                    dto.expiration()
+                    dto.expiration(),
+                    qrCodePayer,
+                    pendingDynamicInstantQrCodeStatus
             ));
 
             unitOfWork.commit();

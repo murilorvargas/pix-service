@@ -15,12 +15,10 @@ public class QrCodePayer {
     }
 
     public QrCodePayer(
-            Long id,
             String qrCodePayerKey,
             String name,
             String documentNumber
     ) {
-        this.id = id;
         this.qrCodePayerKey = qrCodePayerKey;
         this.name = name;
         this.documentNumber = documentNumber;
@@ -34,7 +32,8 @@ public class QrCodePayer {
             LocalDateTime updatedAt,
             LocalDateTime createdAt
     ) {
-        this(id, qrCodePayerKey, name, documentNumber);
+        this(qrCodePayerKey, name, documentNumber);
+        this.id = id;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
     }

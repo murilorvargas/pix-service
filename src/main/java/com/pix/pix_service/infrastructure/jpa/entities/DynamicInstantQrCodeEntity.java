@@ -1,12 +1,7 @@
 package com.pix.pix_service.infrastructure.jpa.entities;
 
 import com.pix.pix_service.domain.entities.DynamicInstantQrCode;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -25,9 +20,6 @@ public class DynamicInstantQrCodeEntity {
     @Column(name = "correlation_id", nullable = false, unique = true, length = 32)
     private String correlationId;
 
-    @Column(name = "qr_code_payer_id", nullable = false)
-    private Long qrCodePayerId;
-
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
@@ -43,6 +35,14 @@ public class DynamicInstantQrCodeEntity {
     @Column(name = "created_at", insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "qr_code_payer_id", nullable = false)
+    private QrCodePayerEntity qrCodePayer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dynamic_instant_qr_code_status_id", nullable = false)
+    private DynamicInstantQrCodeStatusEntity dynamicInstantQrCodeStatus;
+
     public DynamicInstantQrCodeEntity() {
     }
 
@@ -50,22 +50,24 @@ public class DynamicInstantQrCodeEntity {
             Long id,
             String dynamicInstantQrCodeKey,
             String correlationId,
-            Long qrCodePayerId,
             BigDecimal amount,
             String description,
             Integer expiration,
             LocalDateTime updatedAt,
-            LocalDateTime createdAt
+            LocalDateTime createdAt,
+            QrCodePayerEntity qrCodePayer,
+            DynamicInstantQrCodeStatusEntity dynamicInstantQrCodeStatus
     ) {
         this.id = id;
         this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
         this.correlationId = correlationId;
-        this.qrCodePayerId = qrCodePayerId;
         this.amount = amount;
         this.description = description;
         this.expiration = expiration;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.qrCodePayer = qrCodePayer;
+        this.dynamicInstantQrCodeStatus = dynamicInstantQrCodeStatus;
     }
 
     public static DynamicInstantQrCodeEntity fromDomain(DynamicInstantQrCode domain) {
@@ -73,12 +75,13 @@ public class DynamicInstantQrCodeEntity {
                 domain.getId(),
                 domain.getDynamicInstantQrCodeKey(),
                 domain.getCorrelationId(),
-                domain.getQrCodePayerId(),
                 domain.getAmount(),
                 domain.getDescription(),
                 domain.getExpiration(),
                 domain.getUpdatedAt(),
-                domain.getCreatedAt()
+                domain.getCreatedAt(),
+                QrCodePayerEntity.fromDomain(domain.getQrCodePayer()),
+                DynamicInstantQrCodeStatusEntity.fromDomain(domain.getDynamicInstantQrCodeStatus())
         );
     }
 
@@ -87,12 +90,13 @@ public class DynamicInstantQrCodeEntity {
                 this.id,
                 this.dynamicInstantQrCodeKey,
                 this.correlationId,
-                this.qrCodePayerId,
                 this.amount,
                 this.description,
                 this.expiration,
                 this.updatedAt,
-                this.createdAt
+                this.createdAt,
+                this.qrCodePayer.toDomain(),
+                this.dynamicInstantQrCodeStatus.toDomain()
         );
     }
 
@@ -118,14 +122,6 @@ public class DynamicInstantQrCodeEntity {
 
     public void setCorrelationId(String correlationId) {
         this.correlationId = correlationId;
-    }
-
-    public Long getQrCodePayerId() {
-        return qrCodePayerId;
-    }
-
-    public void setQrCodePayerId(Long qrCodePayerId) {
-        this.qrCodePayerId = qrCodePayerId;
     }
 
     public BigDecimal getAmount() {
@@ -166,5 +162,21 @@ public class DynamicInstantQrCodeEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public QrCodePayerEntity getQrCodePayer() {
+        return qrCodePayer;
+    }
+
+    public void setQrCodePayer(QrCodePayerEntity qrCodePayer) {
+        this.qrCodePayer = qrCodePayer;
+    }
+
+    public DynamicInstantQrCodeStatusEntity getDynamicInstantQrCodeStatus() {
+        return dynamicInstantQrCodeStatus;
+    }
+
+    public void setDynamicInstantQrCodeStatus(DynamicInstantQrCodeStatusEntity dynamicInstantQrCodeStatus) {
+        this.dynamicInstantQrCodeStatus = dynamicInstantQrCodeStatus;
     }
 }
