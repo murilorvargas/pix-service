@@ -34,3 +34,10 @@ build/
 
 ### Docker ###
 infrastructure/.env
+
+### Private keys ###
+*.key
+infrastructure/*.key
+
+### Local config ###
+application-local.properties
