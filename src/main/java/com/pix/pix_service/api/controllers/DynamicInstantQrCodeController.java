@@ -20,7 +20,7 @@ public class DynamicInstantQrCodeController {
     @PostMapping("/pix/dynamic_instant_qr_codes")
     public ResponseEntity<String> createDynamicInstantQrCode(@Valid @RequestBody CreateDynamicInstantQrCodeSchema request) {
         var dto = request.toDTO();
-        String response = this.dynamic_instant_qr_code_service.createDynamicInstantQrCode(dto);
-        return ResponseEntity.status(201).body(response);
+        var qrCode = this.dynamic_instant_qr_code_service.createDynamicInstantQrCode(dto);
+        return ResponseEntity.status(201).body(qrCode.getDynamicInstantQrCodeKey());
     }
 }

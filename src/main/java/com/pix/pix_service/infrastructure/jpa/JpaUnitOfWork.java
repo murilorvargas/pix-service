@@ -1,0 +1,44 @@
+package com.pix.pix_service.infrastructure.jpa;
+
+import com.pix.pix_service.domain.UnitOfWork;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+
+@Component
+public class JpaUnitOfWork implements UnitOfWork {
+
+    private final PlatformTransactionManager transactionManager;
+    private TransactionStatus transactionStatus;
+
+    public JpaUnitOfWork(PlatformTransactionManager transactionManager) {
+        this.transactionManager = transactionManager;
+    }
+
+    @Override
+    public void begin() {
+        var definition = new DefaultTransactionDefinition();
+        definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        this.transactionStatus = transactionManager.getTransaction(definition);
+    }
+
+    @Override
+    public void commit() {
+        if (transactionStatus == null) {
+            throw new IllegalStateException("No active transaction to commit");
+        }
+        transactionManager.commit(transactionStatus);
+        transactionStatus = null;
+    }
+
+    @Override
+    public void rollback() {
+        if (transactionStatus == null) {
+            throw new IllegalStateException("No active transaction to rollback");
+        }
+        transactionManager.rollback(transactionStatus);
+        transactionStatus = null;
+    }
+}
