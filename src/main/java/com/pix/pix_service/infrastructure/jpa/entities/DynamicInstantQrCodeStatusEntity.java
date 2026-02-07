@@ -1,5 +1,6 @@
 package com.pix.pix_service.infrastructure.jpa.entities;
 
+import com.pix.pix_service.domain.entities.DynamicInstantQrCodeStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -21,7 +22,31 @@ public class DynamicInstantQrCodeStatusEntity {
     public DynamicInstantQrCodeStatusEntity() {
     }
 
-    public static QrCodePayerEntity fromDomain(Qr)
+    public DynamicInstantQrCodeStatusEntity(
+            Long id,
+            String enumerator,
+            LocalDateTime createdAt
+    ) {
+        this.id = id;
+        this.enumerator = enumerator;
+        this.createdAt = createdAt;
+    }
+
+    public static DynamicInstantQrCodeStatusEntity fromDomain(DynamicInstantQrCodeStatus domain) {
+        return new DynamicInstantQrCodeStatusEntity(
+                domain.getId(),
+                domain.getEnumerator(),
+                domain.getCreatedAt()
+        );
+    }
+
+    public DynamicInstantQrCodeStatus toDomain() {
+        return new DynamicInstantQrCodeStatus(
+                this.id,
+                this.enumerator,
+                this.createdAt
+        );
+    }
 
     public Long getId() {
         return id;

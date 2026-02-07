@@ -19,6 +19,10 @@ CREATE TABLE pix.DynamicInstantQrCodeStatus (
       created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 );
 
+INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("pending");
+INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("activated");
+INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("error");
+
 CREATE TABLE pix.DynamicInstantQrCode (
       id                                BIGINT          NOT NULL        AUTO_INCREMENT PRIMARY KEY,
       dynamic_instant_qrcode_key        VARCHAR(36)     NOT NULL        UNIQUE,
