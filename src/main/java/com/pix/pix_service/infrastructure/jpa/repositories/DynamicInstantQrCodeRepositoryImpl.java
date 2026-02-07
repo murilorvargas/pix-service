@@ -3,8 +3,11 @@ package com.pix.pix_service.infrastructure.jpa.repositories;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCode;
 import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeRepository;
 import com.pix.pix_service.infrastructure.jpa.entities.DynamicInstantQrCodeEntity;
+import com.pix.pix_service.infrastructure.jpa.specifications.DynamicInstantQrCodeSpecification;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -43,5 +46,14 @@ public class DynamicInstantQrCodeRepositoryImpl implements DynamicInstantQrCodeR
     public Optional<DynamicInstantQrCode> findByCorrelationId(String correlationId) {
         return jpaRepository.findByCorrelationId(correlationId)
                 .map(DynamicInstantQrCodeEntity::toDomain);
+    }
+
+    @Override
+    public List<DynamicInstantQrCode> findAll(String correlationId, String dynamicInstantQrCodeKey, int page, int pageSize) {
+        var spec = DynamicInstantQrCodeSpecification.withFilters(correlationId, dynamicInstantQrCodeKey);
+        var pageable = PageRequest.of(page - 1, pageSize);
+        return jpaRepository.findAll(spec, pageable)
+                .map(DynamicInstantQrCodeEntity::toDomain)
+                .getContent();
     }
 }

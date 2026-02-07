@@ -12,6 +12,7 @@ import com.pix.pix_service.domain.repositories.QrCodePayerRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -57,5 +58,9 @@ public class DynamicInstantQrCodeService {
         ));
         unitOfWork.commit();
         return qrCode;
+    }
+
+    public List<DynamicInstantQrCode> listDynamicInstantQrCodes(String correlationId, String dynamicInstantQrCodeKey, int page, int pageSize) {
+        return dynamicInstantQrCodeRepository.findAll(correlationId, dynamicInstantQrCodeKey, page, pageSize);
     }
 }

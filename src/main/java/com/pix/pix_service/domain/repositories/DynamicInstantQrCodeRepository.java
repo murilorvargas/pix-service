@@ -2,6 +2,7 @@ package com.pix.pix_service.domain.repositories;
 
 import com.pix.pix_service.domain.entities.DynamicInstantQrCode;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface DynamicInstantQrCodeRepository {
@@ -15,4 +16,6 @@ public interface DynamicInstantQrCodeRepository {
     Optional<DynamicInstantQrCode> findByDynamicInstantQrCodeKey(String dynamicInstantQrCodeKey);
 
     Optional<DynamicInstantQrCode> findByCorrelationId(String correlationId);
+
+    List<DynamicInstantQrCode> findAll(String correlationId, String dynamicInstantQrCodeKey, int page, int pageSize);
 }

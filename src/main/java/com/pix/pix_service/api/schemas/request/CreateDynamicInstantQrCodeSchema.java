@@ -1,4 +1,4 @@
-package com.pix.pix_service.api.schemas;
+package com.pix.pix_service.api.schemas.request;
 
 import com.pix.pix_service.application.dtos.input.CreateDynamicInstantQrCodeDTO;
 import jakarta.validation.Valid;

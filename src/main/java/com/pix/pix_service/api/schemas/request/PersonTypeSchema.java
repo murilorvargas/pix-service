@@ -1,4 +1,4 @@
-package com.pix.pix_service.api.schemas;
+package com.pix.pix_service.api.schemas.request;
 
 public enum PersonTypeSchema {
     NATURAL,
