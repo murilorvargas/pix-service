@@ -1,13 +1,16 @@
 package com.pix.pix_service.infrastructure.jpa;
 
 import com.pix.pix_service.domain.UnitOfWork;
+import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.web.context.annotation.RequestScope;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 @Component
+@RequestScope
 public class JpaUnitOfWork implements UnitOfWork {
 
     private final PlatformTransactionManager transactionManager;
@@ -40,5 +43,13 @@ public class JpaUnitOfWork implements UnitOfWork {
         }
         transactionManager.rollback(transactionStatus);
         transactionStatus = null;
+    }
+
+    @PreDestroy
+    public void cleanup() {
+        if (transactionStatus != null && !transactionStatus.isCompleted()) {
+            transactionManager.rollback(transactionStatus);
+            transactionStatus = null;
+        }
     }
 }

@@ -27,10 +27,10 @@ public class QrCodePayerEntity {
     @Column(name = "document_number", nullable = false, length = 14)
     private String documentNumber;
 
-    @Column(name = "updated_at", insertable = false, updatable = false)
+    @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime updatedAt;
 
-    @Column(name = "created_at", insertable = false, updatable = false)
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     public QrCodePayerEntity() {

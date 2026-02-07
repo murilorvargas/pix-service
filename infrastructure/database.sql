@@ -7,7 +7,7 @@ CREATE TABLE pix.QrCodePayer (
      document_number                 VARCHAR(14)     NOT NULL,
 
      updated_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
-     created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+     created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
 );
 
 CREATE INDEX idx_document_number_qcp ON pix.QrCodePayer (document_number);
@@ -16,7 +16,7 @@ CREATE TABLE pix.DynamicInstantQrCodeStatus (
       id                              BIGINT          NOT NULL        AUTO_INCREMENT PRIMARY KEY,
       enumerator                      VARCHAR(255)    NOT NULL        UNIQUE,
 
-      created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+      created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
 );
 
 INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("pending");
