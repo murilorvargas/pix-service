@@ -32,6 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+### Gradle ###
+.gradle/
+
 ### Docker ###
 infrastructure/.env
 
