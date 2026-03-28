@@ -6,6 +6,10 @@ import com.pix.pix_service.domain.UnitOfWork;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCode;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCodeStatus;
 import com.pix.pix_service.domain.entities.QrCodePayer;
+import com.pix.pix_service.domain.gateways.QrCodeGateway;
+import com.pix.pix_service.domain.gateways.dtos.CreateDynamicInstantQrCodeInputDTO;
+import com.pix.pix_service.domain.gateways.dtos.CreateDynamicInstantQrCodeOutputDTO;
+import com.pix.pix_service.domain.gateways.dtos.QrCodePayerInputDTO;
 import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeRepository;
 import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeStatusRepository;
 import com.pix.pix_service.domain.repositories.QrCodePayerRepository;
@@ -22,17 +26,20 @@ public class DynamicInstantQrCodeService {
     private final DynamicInstantQrCodeStatusRepository dynamicInstantQrCodeStatusRepository;
     private final QrCodePayerRepository qrCodePayerRepository;
     private final DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository;
+    private final QrCodeGateway qrCodeGateway;
 
     public DynamicInstantQrCodeService(
             UnitOfWork unitOfWork,
             DynamicInstantQrCodeStatusRepository dynamicInstantQrCodeStatusRepository,
             QrCodePayerRepository qrCodePayerRepository,
-            DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository
+            DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository,
+            QrCodeGateway qrCodeGateway
     ) {
         this.unitOfWork = unitOfWork;
         this.dynamicInstantQrCodeStatusRepository = dynamicInstantQrCodeStatusRepository;
         this.qrCodePayerRepository = qrCodePayerRepository;
         this.dynamicInstantQrCodeRepository = dynamicInstantQrCodeRepository;
+        this.qrCodeGateway = qrCodeGateway;
     }
 
     public DynamicInstantQrCode createDynamicInstantQrCode(CreateDynamicInstantQrCodeDTO dto) {
@@ -57,6 +64,23 @@ public class DynamicInstantQrCodeService {
                 pendingDynamicInstantQrCodeStatus
         ));
         unitOfWork.commit();
+
+        try {
+            QrCodePayerInputDTO qrCodePayerInputDTO = new QrCodePayerInputDTO(
+                qrCodePayer.getName(),
+                qrCodePayer.
+            )
+            CreateDynamicInstantQrCodeOutputDTO = qrCodeGateway.createDynamicInstantQrCode(new CreateDynamicInstantQrCodeInputDTO(
+                qrCode.getCorrelationId(),
+                qrCodePayer,
+                qrCode.getAmount(),
+                qrCode.getDescription(),
+                qrCode.getExpiration()
+            ));
+        } catch (RuntimeException ex) {
+            unitOfWork.commit();
+        }
+
         return qrCode;
     }
 

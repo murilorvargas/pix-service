@@ -27,8 +27,8 @@ import java.util.Map;
 public class QiTechSigner {
 
     private static final DateTimeFormatter ISO_FORMATTER = DateTimeFormatter
-            .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
-            .withZone(ZoneOffset.UTC);
+        .ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS'Z'")
+        .withZone(ZoneOffset.UTC);
 
     private final PrivateKey privateKey;
     private final String apiClientKey;
@@ -38,8 +38,8 @@ public class QiTechSigner {
     }
 
     public QiTechSigner(
-            @Value("${qitech.private-key-path}") String privateKeyPath,
-            @Value("${qitech.api-client-key}") String apiClientKey
+        @Value("${qitech.private-key-path}") String privateKeyPath,
+        @Value("${qitech.api-client-key}") String apiClientKey
     ) {
         this.privateKey = loadPrivateKey(privateKeyPath);
         this.apiClientKey = apiClientKey;
@@ -50,12 +50,12 @@ public class QiTechSigner {
         String bodyMd5 = md5(body);
 
         String token = Jwts.builder()
-                .claim("method", method)
-                .claim("uri", endpoint)
-                .claim("timestamp", timestamp)
-                .claim("payload_md5", bodyMd5)
-                .signWith(privateKey, Jwts.SIG.ES512)
-                .compact();
+            .claim("method", method)
+            .claim("uri", endpoint)
+            .claim("timestamp", timestamp)
+            .claim("payload_md5", bodyMd5)
+            .signWith(privateKey, Jwts.SIG.ES512)
+            .compact();
 
         return Map.of(
                 "Authorization", token,
@@ -81,9 +81,9 @@ public class QiTechSigner {
         try {
             String keyContent = Files.readString(Path.of(path));
             String encoded = keyContent
-                    .replace("-----BEGIN EC PRIVATE KEY-----", "")
-                    .replace("-----END EC PRIVATE KEY-----", "")
-                    .replaceAll("\\s", "");
+                .replace("-----BEGIN EC PRIVATE KEY-----", "")
+                .replace("-----END EC PRIVATE KEY-----", "")
+                .replaceAll("\\s", "");
 
             byte[] decoded = Base64.getDecoder().decode(encoded);
             KeyFactory keyFactory = KeyFactory.getInstance("EC", BouncyCastleProvider.PROVIDER_NAME);
