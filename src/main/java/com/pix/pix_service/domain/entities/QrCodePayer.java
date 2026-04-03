@@ -70,6 +70,10 @@ public class QrCodePayer {
         this.documentNumber = documentNumber;
     }
 
+    public String getPersonType() {
+        return documentNumber.length() == 11 ? "NATURAL" : "LEGAL";
+    }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }

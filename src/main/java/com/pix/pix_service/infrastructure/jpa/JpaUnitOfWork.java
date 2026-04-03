@@ -22,6 +22,9 @@ public class JpaUnitOfWork implements UnitOfWork {
 
     @Override
     public void begin() {
+        if (transactionStatus != null && !transactionStatus.isCompleted()) {
+            return;
+        }
         var definition = new DefaultTransactionDefinition();
         definition.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
         this.transactionStatus = transactionManager.getTransaction(definition);

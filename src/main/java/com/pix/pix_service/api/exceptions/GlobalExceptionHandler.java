@@ -2,18 +2,21 @@ package com.pix.pix_service.api.exceptions;
 
 import com.pix.pix_service.domain.exceptions.DomainException;
 import com.pix.pix_service.domain.exceptions.QrCodeCreationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Locale;
 import java.util.Map;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     private final MessageSource messageSource;
 
     private static final Map<Class<? extends DomainException>, HttpStatus> STATUS_MAP = Map.of(
@@ -35,6 +38,20 @@ public class GlobalExceptionHandler {
                 status.getReasonPhrase(),
                 message,
                 ex.getCode()
+            ));
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleGeneric(Exception ex, Locale locale) {
+        logger.error("GlobalExceptionHandler.handleGeneric - Unexpected error: {}", ex.getMessage(), ex);
+
+        String message = messageSource.getMessage("error.internal", null, locale);
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                message,
+                "GEN00500"
             ));
     }
 }

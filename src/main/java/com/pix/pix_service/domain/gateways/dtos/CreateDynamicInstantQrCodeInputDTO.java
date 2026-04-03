@@ -1,9 +1,11 @@
 package com.pix.pix_service.domain.gateways.dtos;
 
+import java.math.BigDecimal;
+
 public record CreateDynamicInstantQrCodeInputDTO(
     String correlationId,
     QrCodePayerInputDTO qrCodePayer,
-    Double amount,
+    BigDecimal amount,
     String description,
     Integer expiration
 ) {}

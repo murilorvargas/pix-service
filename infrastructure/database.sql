@@ -1,15 +1,5 @@
 CREATE SCHEMA IF NOT EXISTS pix;
 
-CREATE TABLE pix.PersonType (
-    id                              BIGINT          NOT NULL        AUTO_INCREMENT PRIMARY KEY,
-    enumerator                      VARCHAR(255)    NOT NULL        UNIQUE,
-
-    created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
-);
-
-INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("natural");
-INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("legal");
-
 CREATE TABLE pix.QrCodePayer (
      id                              BIGINT          NOT NULL        AUTO_INCREMENT PRIMARY KEY,
      qr_code_payer_key               VARCHAR(36)     NOT NULL        UNIQUE,
@@ -37,10 +27,12 @@ CREATE TABLE pix.DynamicInstantQrCode (
       id                                BIGINT          NOT NULL        AUTO_INCREMENT PRIMARY KEY,
       dynamic_instant_qrcode_key        VARCHAR(36)     NOT NULL        UNIQUE,
       correlation_id                    VARCHAR(32)     NOT NULL        UNIQUE,
+      external_key                      VARCHAR(36)     NULL            UNIQUE,
       qr_code_payer_id                  BIGINT          NOT NULL,
       amount                            DECIMAL(19, 2)  NOT NULL,
       description                       VARCHAR(140)    NULL,
       expiration                        INT             NOT NULL,
+      br_code                           VARCHAR(512)    NULL,
       dynamic_instant_qr_code_status_id BIGINT          NOT NULL,
 
       updated_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),

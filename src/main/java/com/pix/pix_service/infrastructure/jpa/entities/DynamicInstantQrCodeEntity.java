@@ -20,6 +20,9 @@ public class DynamicInstantQrCodeEntity {
     @Column(name = "correlation_id", nullable = false, unique = true, length = 32)
     private String correlationId;
 
+    @Column(name = "external_key", nullable = true, unique = true, length = 36)
+    private String externalKey;
+
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal amount;
 
@@ -28,6 +31,9 @@ public class DynamicInstantQrCodeEntity {
 
     @Column(nullable = false)
     private Integer expiration;
+
+    @Column(name = "br_code", nullable = true, length = 512)
+    private String brCode;
 
     @Column(name = "updated_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime updatedAt;
@@ -50,9 +56,11 @@ public class DynamicInstantQrCodeEntity {
             Long id,
             String dynamicInstantQrCodeKey,
             String correlationId,
+            String externalKey,
             BigDecimal amount,
             String description,
             Integer expiration,
+            String brCode,
             LocalDateTime updatedAt,
             LocalDateTime createdAt,
             QrCodePayerEntity qrCodePayer,
@@ -61,9 +69,11 @@ public class DynamicInstantQrCodeEntity {
         this.id = id;
         this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
         this.correlationId = correlationId;
+        this.externalKey = externalKey;
         this.amount = amount;
         this.description = description;
         this.expiration = expiration;
+        this.brCode = brCode;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
         this.qrCodePayer = qrCodePayer;
@@ -75,9 +85,11 @@ public class DynamicInstantQrCodeEntity {
                 domain.getId(),
                 domain.getDynamicInstantQrCodeKey(),
                 domain.getCorrelationId(),
+                domain.getExternalKey(),
                 domain.getAmount(),
                 domain.getDescription(),
                 domain.getExpiration(),
+                domain.getBrCode(),
                 domain.getUpdatedAt(),
                 domain.getCreatedAt(),
                 QrCodePayerEntity.fromDomain(domain.getQrCodePayer()),
@@ -90,9 +102,11 @@ public class DynamicInstantQrCodeEntity {
                 this.id,
                 this.dynamicInstantQrCodeKey,
                 this.correlationId,
+                this.externalKey,
                 this.amount,
                 this.description,
                 this.expiration,
+                this.brCode,
                 this.updatedAt,
                 this.createdAt,
                 this.qrCodePayer.toDomain(),
@@ -124,6 +138,14 @@ public class DynamicInstantQrCodeEntity {
         this.correlationId = correlationId;
     }
 
+    public String getExternalKey() {
+        return externalKey;
+    }
+
+    public void setExternalKey(String externalKey) {
+        this.externalKey = externalKey;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -146,6 +168,14 @@ public class DynamicInstantQrCodeEntity {
 
     public void setExpiration(Integer expiration) {
         this.expiration = expiration;
+    }
+
+    public String getBrCode() {
+        return brCode;
+    }
+
+    public void setBrCode(String brCode) {
+        this.brCode = brCode;
     }
 
     public LocalDateTime getUpdatedAt() {

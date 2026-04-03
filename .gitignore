@@ -44,3 +44,6 @@ infrastructure/*.key
 
 ### Local config ###
 application-local.properties
+
+### Claude ###
+.claude

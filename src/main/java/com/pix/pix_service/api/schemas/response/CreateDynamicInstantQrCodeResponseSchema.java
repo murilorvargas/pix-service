@@ -11,6 +11,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
     private BigDecimal amount;
     private String description;
     private Integer expiration;
+    private String brCode;
     private String status;
     private QrCodePayerResponseSchema qrCodePayer;
 
@@ -23,6 +24,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
             BigDecimal amount,
             String description,
             Integer expiration,
+            String brCode,
             String status,
             QrCodePayerResponseSchema qrCodePayer
     ) {
@@ -31,6 +33,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
         this.amount = amount;
         this.description = description;
         this.expiration = expiration;
+        this.brCode = brCode;
         this.status = status;
         this.qrCodePayer = qrCodePayer;
     }
@@ -42,6 +45,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
                 entity.getAmount(),
                 entity.getDescription(),
                 entity.getExpiration(),
+                entity.getBrCode(),
                 entity.getDynamicInstantQrCodeStatus() != null
                         ? entity.getDynamicInstantQrCodeStatus().getEnumerator()
                         : null,
@@ -69,6 +73,10 @@ public class CreateDynamicInstantQrCodeResponseSchema {
 
     public Integer getExpiration() {
         return expiration;
+    }
+
+    public String getBrCode() {
+        return brCode;
     }
 
     public String getStatus() {

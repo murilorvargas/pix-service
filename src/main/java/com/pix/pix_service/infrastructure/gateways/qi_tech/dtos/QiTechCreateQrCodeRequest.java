@@ -2,10 +2,12 @@ package com.pix.pix_service.infrastructure.gateways.qi_tech.dtos;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+
 public record QiTechCreateQrCodeRequest(
         @JsonProperty("account_key") String accountKey,
         @JsonProperty("pix_key") String pixKey,
-        Double amount,
+        BigDecimal amount,
         @JsonProperty("expiration_seconds") Integer expirationSeconds,
         @JsonProperty("occurrence_type") String occurrenceType,
         @JsonProperty("payer_document_number") String payerDocumentNumber,

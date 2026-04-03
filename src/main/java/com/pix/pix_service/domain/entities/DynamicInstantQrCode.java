@@ -8,9 +8,11 @@ public class DynamicInstantQrCode {
     private Long id;
     private String dynamicInstantQrCodeKey;
     private String correlationId;
+    private String externalKey;
     private BigDecimal amount;
     private String description;
     private Integer expiration;
+    private String brCode;
     private LocalDateTime updatedAt;
     private LocalDateTime createdAt;
     private QrCodePayer qrCodePayer;
@@ -41,9 +43,11 @@ public class DynamicInstantQrCode {
             Long id,
             String dynamicInstantQrCodeKey,
             String correlationId,
+            String externalKey,
             BigDecimal amount,
             String description,
             Integer expiration,
+            String brCode,
             LocalDateTime updatedAt,
             LocalDateTime createdAt,
             QrCodePayer qrCodePayer,
@@ -51,6 +55,8 @@ public class DynamicInstantQrCode {
     ) {
         this(dynamicInstantQrCodeKey, correlationId, amount, description, expiration, qrCodePayer, dynamicInstantQrCodeStatus);
         this.id = id;
+        this.externalKey = externalKey;
+        this.brCode = brCode;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
     }
@@ -79,6 +85,14 @@ public class DynamicInstantQrCode {
         this.correlationId = correlationId;
     }
 
+    public String getExternalKey() {
+        return externalKey;
+    }
+
+    public void setExternalKey(String externalKey) {
+        this.externalKey = externalKey;
+    }
+
     public BigDecimal getAmount() {
         return amount;
     }
@@ -101,6 +115,14 @@ public class DynamicInstantQrCode {
 
     public void setExpiration(Integer expiration) {
         this.expiration = expiration;
+    }
+
+    public String getBrCode() {
+        return brCode;
+    }
+
+    public void setBrCode(String brCode) {
+        this.brCode = brCode;
     }
 
     public LocalDateTime getUpdatedAt() {

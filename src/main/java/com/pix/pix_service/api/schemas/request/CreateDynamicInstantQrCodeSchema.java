@@ -5,6 +5,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import org.springframework.validation.annotation.Validated;
 
+import java.math.BigDecimal;
+
 @Validated
 public class CreateDynamicInstantQrCodeSchema {
 
@@ -18,7 +20,7 @@ public class CreateDynamicInstantQrCodeSchema {
 
     @NotNull
     @DecimalMin(value = "0.01")
-    private Double amount;
+    private BigDecimal amount;
 
     @Size(min = 1, max = 140)
     private String description;
@@ -35,7 +37,7 @@ public class CreateDynamicInstantQrCodeSchema {
         return qrCodePayer;
     }
 
-    public Double getAmount() {
+    public BigDecimal getAmount() {
         return amount;
     }
 

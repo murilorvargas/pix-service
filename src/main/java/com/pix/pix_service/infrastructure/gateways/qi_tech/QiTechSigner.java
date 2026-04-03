@@ -99,4 +99,11 @@ public class QiTechSigner {
     public String getApiClientKey() {
         return apiClientKey;
     }
+
+    public String signPayload(Map<String, Object> payload) {
+        return Jwts.builder()
+            .claims(payload)
+            .signWith(privateKey, Jwts.SIG.ES512)
+            .compact();
+    }
 }
