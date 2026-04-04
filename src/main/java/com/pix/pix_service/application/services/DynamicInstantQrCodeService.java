@@ -96,11 +96,11 @@ public class DynamicInstantQrCodeService {
             unitOfWork.begin();
             dynamicInstantQrCodeRepository.save(qrCode);
             unitOfWork.commit();
-        } catch (RuntimeException ex) {
-            logger.info("DynamicInstantQrCodeService.createDynamicInstantQrCode - Error while creating Dynamic Instant QR Code: {}", ex.getMessage(), ex);
+        } catch (Exception ex) {
+            logger.warn("DynamicInstantQrCodeService.createDynamicInstantQrCode - Error while creating Dynamic Instant QR Code: {}", ex.getMessage(), ex);
 
             DynamicInstantQrCodeStatus errorDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
-                .findByEnumerator("error")
+                .findByEnumerator("ERROR")
                 .orElseThrow(() -> new RuntimeException("Status 'ERROR' not found!"));
 
             qrCode.setDynamicInstantQrCodeStatus(errorDynamicInstantQrCodeStatus);
