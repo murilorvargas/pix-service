@@ -1,18 +1,13 @@
 package com.pix.pix_service.infrastructure.jpa.specifications;
 
-import com.pix.pix_service.infrastructure.jpa.entities.DynamicInstantQrCodeEntity;
+import com.pix.pix_service.infrastructure.jpa.entities.PixKeyEntity;
 import org.springframework.data.jpa.domain.Specification;
 
-public class DynamicInstantQrCodeSpecification {
+public class PixKeySpecification {
 
-    public static Specification<DynamicInstantQrCodeEntity> withFilters(String correlationId, String publicKey) {
+    public static Specification<PixKeyEntity> withFilters(String publicKey) {
         return (root, query, criteriaBuilder) -> {
             var predicate = criteriaBuilder.conjunction();
-
-            if (correlationId != null && !correlationId.isBlank()) {
-                predicate = criteriaBuilder.and(predicate,
-                    criteriaBuilder.equal(root.get("correlationId"), correlationId));
-            }
 
             if (publicKey != null && !publicKey.isBlank()) {
                 predicate = criteriaBuilder.and(predicate,

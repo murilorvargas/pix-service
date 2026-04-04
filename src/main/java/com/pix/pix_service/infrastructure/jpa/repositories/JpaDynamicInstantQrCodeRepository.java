@@ -13,10 +13,10 @@ import java.util.Optional;
 public interface JpaDynamicInstantQrCodeRepository extends JpaRepository<DynamicInstantQrCodeEntity, Long>, JpaSpecificationExecutor<DynamicInstantQrCodeEntity> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT d FROM DynamicInstantQrCodeEntity d WHERE d.id = :id")
+    @Query("SELECT d FROM DynamicInstantQrCode d WHERE d.id = :id")
     Optional<DynamicInstantQrCodeEntity> findByIdForUpdate(@Param("id") Long id);
 
-    Optional<DynamicInstantQrCodeEntity> findByDynamicInstantQrCodeKey(String dynamicInstantQrCodeKey);
+    Optional<DynamicInstantQrCodeEntity> findByPublicKey(String publicKey);
 
     Optional<DynamicInstantQrCodeEntity> findByCorrelationId(String correlationId);
 }

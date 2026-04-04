@@ -14,8 +14,8 @@ public class DynamicInstantQrCodeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "dynamic_instant_qrcode_key", nullable = false, unique = true, length = 36)
-    private String dynamicInstantQrCodeKey;
+    @Column(name = "public_key", nullable = false, unique = true, length = 36)
+    private String publicKey;
 
     @Column(name = "correlation_id", nullable = false, unique = true, length = 32)
     private String correlationId;
@@ -54,7 +54,7 @@ public class DynamicInstantQrCodeEntity {
 
     public DynamicInstantQrCodeEntity(
             Long id,
-            String dynamicInstantQrCodeKey,
+            String publicKey,
             String correlationId,
             String externalKey,
             BigDecimal amount,
@@ -67,7 +67,7 @@ public class DynamicInstantQrCodeEntity {
             DynamicInstantQrCodeStatusEntity dynamicInstantQrCodeStatus
     ) {
         this.id = id;
-        this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
+        this.publicKey = publicKey;
         this.correlationId = correlationId;
         this.externalKey = externalKey;
         this.amount = amount;
@@ -83,7 +83,7 @@ public class DynamicInstantQrCodeEntity {
     public static DynamicInstantQrCodeEntity fromDomain(DynamicInstantQrCode domain) {
         return new DynamicInstantQrCodeEntity(
                 domain.getId(),
-                domain.getDynamicInstantQrCodeKey(),
+                domain.getPublicKey(),
                 domain.getCorrelationId(),
                 domain.getExternalKey(),
                 domain.getAmount(),
@@ -100,7 +100,7 @@ public class DynamicInstantQrCodeEntity {
     public DynamicInstantQrCode toDomain() {
         return new DynamicInstantQrCode(
                 this.id,
-                this.dynamicInstantQrCodeKey,
+                this.publicKey,
                 this.correlationId,
                 this.externalKey,
                 this.amount,
@@ -122,12 +122,12 @@ public class DynamicInstantQrCodeEntity {
         this.id = id;
     }
 
-    public String getDynamicInstantQrCodeKey() {
-        return dynamicInstantQrCodeKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public void setDynamicInstantQrCodeKey(String dynamicInstantQrCodeKey) {
-        this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getCorrelationId() {

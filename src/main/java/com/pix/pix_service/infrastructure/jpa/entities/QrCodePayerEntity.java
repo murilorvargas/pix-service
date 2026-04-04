@@ -18,8 +18,8 @@ public class QrCodePayerEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "qr_code_payer_key", nullable = false, unique = true, length = 36)
-    private String qrCodePayerKey;
+    @Column(name = "public_key", nullable = false, unique = true, length = 36)
+    private String publicKey;
 
     @Column(nullable = false)
     private String name;
@@ -38,14 +38,14 @@ public class QrCodePayerEntity {
 
     public QrCodePayerEntity(
             Long id,
-            String qrCodePayerKey,
+            String publicKey,
             String name,
             String documentNumber,
             LocalDateTime updatedAt,
             LocalDateTime createdAt
     ) {
         this.id = id;
-        this.qrCodePayerKey = qrCodePayerKey;
+        this.publicKey = publicKey;
         this.name = name;
         this.documentNumber = documentNumber;
         this.updatedAt = updatedAt;
@@ -55,7 +55,7 @@ public class QrCodePayerEntity {
     public static QrCodePayerEntity fromDomain(QrCodePayer domain) {
         return new QrCodePayerEntity(
                 domain.getId(),
-                domain.getQrCodePayerKey(),
+                domain.getPublicKey(),
                 domain.getName(),
                 domain.getDocumentNumber(),
                 domain.getUpdatedAt(),
@@ -66,7 +66,7 @@ public class QrCodePayerEntity {
     public QrCodePayer toDomain() {
         return new QrCodePayer(
                 this.id,
-                this.qrCodePayerKey,
+                this.publicKey,
                 this.name,
                 this.documentNumber,
                 this.updatedAt,
@@ -82,12 +82,12 @@ public class QrCodePayerEntity {
         this.id = id;
     }
 
-    public String getQrCodePayerKey() {
-        return qrCodePayerKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public void setQrCodePayerKey(String qrCodePayerKey) {
-        this.qrCodePayerKey = qrCodePayerKey;
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getName() {

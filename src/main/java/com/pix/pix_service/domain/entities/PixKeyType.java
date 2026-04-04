@@ -2,16 +2,16 @@ package com.pix.pix_service.domain.entities;
 
 import java.time.LocalDateTime;
 
-public class DynamicInstantQrCodeStatus {
+public class PixKeyType {
 
     private Long id;
     private String enumerator;
     private LocalDateTime createdAt;
 
-    public DynamicInstantQrCodeStatus() {
+    public PixKeyType() {
     }
 
-    public DynamicInstantQrCodeStatus(
+    public PixKeyType(
         Long id,
         String enumerator,
         LocalDateTime createdAt

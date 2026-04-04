@@ -12,7 +12,7 @@ public interface QrCodePayerRepository {
 
     Optional<QrCodePayer> findByIdForUpdate(Long id);
 
-    Optional<QrCodePayer> findByQrCodePayerKey(String qrCodePayerKey);
+    Optional<QrCodePayer> findByPublicKey(String publicKey);
 
     Optional<QrCodePayer> findByDocumentNumber(String documentNumber);
 }

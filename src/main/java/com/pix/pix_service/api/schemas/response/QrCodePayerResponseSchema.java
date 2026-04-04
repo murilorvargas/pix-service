@@ -4,29 +4,29 @@ import com.pix.pix_service.domain.entities.QrCodePayer;
 
 public class QrCodePayerResponseSchema {
 
-    private String qrCodePayerKey;
+    private String publicKey;
     private String name;
     private String documentNumber;
 
     public QrCodePayerResponseSchema() {
     }
 
-    public QrCodePayerResponseSchema(String qrCodePayerKey, String name, String documentNumber) {
-        this.qrCodePayerKey = qrCodePayerKey;
+    public QrCodePayerResponseSchema(String publicKey, String name, String documentNumber) {
+        this.publicKey = publicKey;
         this.name = name;
         this.documentNumber = documentNumber;
     }
 
     public static QrCodePayerResponseSchema fromEntity(QrCodePayer entity) {
         return new QrCodePayerResponseSchema(
-                entity.getQrCodePayerKey(),
+                entity.getPublicKey(),
                 entity.getName(),
                 entity.getDocumentNumber()
         );
     }
 
-    public String getQrCodePayerKey() {
-        return qrCodePayerKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
     public String getName() {

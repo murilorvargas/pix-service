@@ -35,13 +35,13 @@ public class DynamicInstantQrCodeController {
     @GetMapping("/pix/dynamic_instant_qr_codes")
     public ResponseEntity<PaginatedDynamicInstantQrCodeResponseSchema> listDynamicInstantQrCodes(
             @RequestParam(required = false) String correlationId,
-            @RequestParam(required = false) String dynamicInstantQrCodeKey,
+            @RequestParam(required = false) String publicKey,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "30") Integer pageSize
     ) {
         var qrCodes = this.dynamic_instant_qr_code_service.listDynamicInstantQrCodes(
                 correlationId,
-                dynamicInstantQrCodeKey,
+                publicKey,
                 page,
                 pageSize
         );

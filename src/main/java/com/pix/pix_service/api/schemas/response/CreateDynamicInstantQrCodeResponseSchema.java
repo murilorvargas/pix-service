@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public class CreateDynamicInstantQrCodeResponseSchema {
 
-    private String dynamicInstantQrCodeKey;
+    private String publicKey;
     private String correlationId;
     private BigDecimal amount;
     private String description;
@@ -19,7 +19,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
     }
 
     public CreateDynamicInstantQrCodeResponseSchema(
-            String dynamicInstantQrCodeKey,
+            String publicKey,
             String correlationId,
             BigDecimal amount,
             String description,
@@ -28,7 +28,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
             String status,
             QrCodePayerResponseSchema qrCodePayer
     ) {
-        this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
+        this.publicKey = publicKey;
         this.correlationId = correlationId;
         this.amount = amount;
         this.description = description;
@@ -40,7 +40,7 @@ public class CreateDynamicInstantQrCodeResponseSchema {
 
     public static CreateDynamicInstantQrCodeResponseSchema fromEntity(DynamicInstantQrCode entity) {
         return new CreateDynamicInstantQrCodeResponseSchema(
-                entity.getDynamicInstantQrCodeKey(),
+                entity.getPublicKey(),
                 entity.getCorrelationId(),
                 entity.getAmount(),
                 entity.getDescription(),
@@ -55,8 +55,8 @@ public class CreateDynamicInstantQrCodeResponseSchema {
         );
     }
 
-    public String getDynamicInstantQrCodeKey() {
-        return dynamicInstantQrCodeKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
     public String getCorrelationId() {

@@ -34,8 +34,8 @@ public class QrCodePayerRepositoryImpl implements QrCodePayerRepository {
     }
 
     @Override
-    public Optional<QrCodePayer> findByQrCodePayerKey(String qrCodePayerKey) {
-        return jpaRepository.findByQrCodePayerKey(qrCodePayerKey).map(QrCodePayerEntity::toDomain);
+    public Optional<QrCodePayer> findByPublicKey(String publicKey) {
+        return jpaRepository.findByPublicKey(publicKey).map(QrCodePayerEntity::toDomain);
     }
 
     @Override

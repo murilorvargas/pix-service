@@ -86,8 +86,8 @@ public class DynamicInstantQrCodeService {
             ));
 
             DynamicInstantQrCodeStatus activatedDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
-                .findByEnumerator("activated")
-                .orElseThrow(() -> new RuntimeException("Status 'activated' not found!"));
+                .findByEnumerator("active")
+                .orElseThrow(() -> new RuntimeException("Status 'active' not found!"));
 
             qrCode.setExternalKey(createDynamicInstantQrCodeOutputDTO.externalKey());
             qrCode.setBrCode(createDynamicInstantQrCodeOutputDTO.brCode());
@@ -113,7 +113,7 @@ public class DynamicInstantQrCodeService {
         return qrCode;
     }
 
-    public List<DynamicInstantQrCode> listDynamicInstantQrCodes(String correlationId, String dynamicInstantQrCodeKey, int page, int pageSize) {
-        return dynamicInstantQrCodeRepository.findAll(correlationId, dynamicInstantQrCodeKey, page, pageSize);
+    public List<DynamicInstantQrCode> listDynamicInstantQrCodes(String correlationId, String publicKey, int page, int pageSize) {
+        return dynamicInstantQrCodeRepository.findAll(correlationId, publicKey, page, pageSize);
     }
 }

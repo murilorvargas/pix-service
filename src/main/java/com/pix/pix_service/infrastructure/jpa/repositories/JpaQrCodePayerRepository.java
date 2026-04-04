@@ -15,7 +15,7 @@ public interface JpaQrCodePayerRepository extends JpaRepository<QrCodePayerEntit
     @Query("SELECT q FROM QrCodePayerEntity q WHERE q.id = :id")
     Optional<QrCodePayerEntity> findByIdForUpdate(@Param("id") Long id);
 
-    Optional<QrCodePayerEntity> findByQrCodePayerKey(String qrCodePayerKey);
+    Optional<QrCodePayerEntity> findByPublicKey(String publicKey);
 
     Optional<QrCodePayerEntity> findByDocumentNumber(String documentNumber);
 }

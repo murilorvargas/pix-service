@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public class QrCodePayer {
 
     private Long id;
-    private String qrCodePayerKey;
+    private String publicKey;
     private String name;
     private String documentNumber;
     private LocalDateTime updatedAt;
@@ -15,24 +15,24 @@ public class QrCodePayer {
     }
 
     public QrCodePayer(
-            String qrCodePayerKey,
-            String name,
-            String documentNumber
+        String publicKey,
+        String name,
+        String documentNumber
     ) {
-        this.qrCodePayerKey = qrCodePayerKey;
+        this.publicKey = publicKey;
         this.name = name;
         this.documentNumber = documentNumber;
     }
 
     public QrCodePayer(
             Long id,
-            String qrCodePayerKey,
+            String publicKey,
             String name,
             String documentNumber,
             LocalDateTime updatedAt,
             LocalDateTime createdAt
     ) {
-        this(qrCodePayerKey, name, documentNumber);
+        this(publicKey, name, documentNumber);
         this.id = id;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
@@ -46,12 +46,12 @@ public class QrCodePayer {
         this.id = id;
     }
 
-    public String getQrCodePayerKey() {
-        return qrCodePayerKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public void setQrCodePayerKey(String qrCodePayerKey) {
-        this.qrCodePayerKey = qrCodePayerKey;
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getName() {

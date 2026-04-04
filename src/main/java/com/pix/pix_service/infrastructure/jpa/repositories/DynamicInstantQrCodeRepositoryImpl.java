@@ -37,8 +37,8 @@ public class DynamicInstantQrCodeRepositoryImpl implements DynamicInstantQrCodeR
     }
 
     @Override
-    public Optional<DynamicInstantQrCode> findByDynamicInstantQrCodeKey(String dynamicInstantQrCodeKey) {
-        return jpaRepository.findByDynamicInstantQrCodeKey(dynamicInstantQrCodeKey)
+    public Optional<DynamicInstantQrCode> findByPublicKey(String publicKey) {
+        return jpaRepository.findByPublicKey(publicKey)
                 .map(DynamicInstantQrCodeEntity::toDomain);
     }
 
@@ -49,8 +49,8 @@ public class DynamicInstantQrCodeRepositoryImpl implements DynamicInstantQrCodeR
     }
 
     @Override
-    public List<DynamicInstantQrCode> findAll(String correlationId, String dynamicInstantQrCodeKey, int page, int pageSize) {
-        var spec = DynamicInstantQrCodeSpecification.withFilters(correlationId, dynamicInstantQrCodeKey);
+    public List<DynamicInstantQrCode> findAll(String correlationId, String publicKey, int page, int pageSize) {
+        var spec = DynamicInstantQrCodeSpecification.withFilters(correlationId, publicKey);
         var pageable = PageRequest.of(page - 1, pageSize);
         return jpaRepository.findAll(spec, pageable)
                 .map(DynamicInstantQrCodeEntity::toDomain)

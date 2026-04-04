@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class DynamicInstantQrCode {
 
     private Long id;
-    private String dynamicInstantQrCodeKey;
+    private String publicKey;
     private String correlationId;
     private String externalKey;
     private BigDecimal amount;
@@ -22,15 +22,15 @@ public class DynamicInstantQrCode {
     }
 
     public DynamicInstantQrCode(
-            String dynamicInstantQrCodeKey,
-            String correlationId,
-            BigDecimal amount,
-            String description,
-            Integer expiration,
-            QrCodePayer qrCodePayer,
-            DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus
+        String publicKey,
+        String correlationId,
+        BigDecimal amount,
+        String description,
+        Integer expiration,
+        QrCodePayer qrCodePayer,
+        DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus
     ) {
-        this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
+        this.publicKey = publicKey;
         this.correlationId = correlationId;
         this.amount = amount;
         this.description = description;
@@ -41,7 +41,7 @@ public class DynamicInstantQrCode {
 
     public DynamicInstantQrCode(
             Long id,
-            String dynamicInstantQrCodeKey,
+            String publicKey,
             String correlationId,
             String externalKey,
             BigDecimal amount,
@@ -53,7 +53,7 @@ public class DynamicInstantQrCode {
             QrCodePayer qrCodePayer,
             DynamicInstantQrCodeStatus dynamicInstantQrCodeStatus
     ) {
-        this(dynamicInstantQrCodeKey, correlationId, amount, description, expiration, qrCodePayer, dynamicInstantQrCodeStatus);
+        this(publicKey, correlationId, amount, description, expiration, qrCodePayer, dynamicInstantQrCodeStatus);
         this.id = id;
         this.externalKey = externalKey;
         this.brCode = brCode;
@@ -69,12 +69,12 @@ public class DynamicInstantQrCode {
         this.id = id;
     }
 
-    public String getDynamicInstantQrCodeKey() {
-        return dynamicInstantQrCodeKey;
+    public String getPublicKey() {
+        return publicKey;
     }
 
-    public void setDynamicInstantQrCodeKey(String dynamicInstantQrCodeKey) {
-        this.dynamicInstantQrCodeKey = dynamicInstantQrCodeKey;
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
     }
 
     public String getCorrelationId() {

@@ -13,9 +13,9 @@ public interface DynamicInstantQrCodeRepository {
 
     Optional<DynamicInstantQrCode> findByIdForUpdate(Long id);
 
-    Optional<DynamicInstantQrCode> findByDynamicInstantQrCodeKey(String dynamicInstantQrCodeKey);
+    Optional<DynamicInstantQrCode> findByPublicKey(String publicKey);
 
     Optional<DynamicInstantQrCode> findByCorrelationId(String correlationId);
 
-    List<DynamicInstantQrCode> findAll(String correlationId, String dynamicInstantQrCodeKey, int page, int pageSize);
+    List<DynamicInstantQrCode> findAll(String correlationId, String publicKey, int page, int pageSize);
 }
