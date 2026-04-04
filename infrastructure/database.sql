@@ -7,11 +7,11 @@ CREATE TABLE pix.PixKeyType (
     created_at          TIMESTAMP(3)        NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
 );
 
-INSERT INTO pix.PixKeyType (enumerator) VALUES ("cpf");
-INSERT INTO pix.PixKeyType (enumerator) VALUES ("cnpj");
-INSERT INTO pix.PixKeyType (enumerator) VALUES ("email");
-INSERT INTO pix.PixKeyType (enumerator) VALUES ("phone");
-INSERT INTO pix.PixKeyType (enumerator) VALUES ("random");
+INSERT INTO pix.PixKeyType (enumerator) VALUES ("CPF");
+INSERT INTO pix.PixKeyType (enumerator) VALUES ("CNPJ");
+INSERT INTO pix.PixKeyType (enumerator) VALUES ("EMAIL");
+INSERT INTO pix.PixKeyType (enumerator) VALUES ("PHONE");
+INSERT INTO pix.PixKeyType (enumerator) VALUES ("RANDOM");
 
 CREATE TABLE pix.PixKeyStatus (
     id                  BIGINT          NOT NULL            AUTO_INCREMENT PRIMARY KEY,
@@ -20,10 +20,10 @@ CREATE TABLE pix.PixKeyStatus (
     created_at          TIMESTAMP(3)        NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
 );
 
-INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("pending");
-INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("active");
-INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("inactive");
-INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("error");
+INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("PENDING");
+INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("ACTIVE");
+INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("INACTIVE");
+INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("ERROR");
 
 CREATE TABLE pix.PixKey (
     id                  BIGINT          NOT NULL            AUTO_INCREMENT PRIMARY KEY,
@@ -59,9 +59,9 @@ CREATE TABLE pix.DynamicInstantQrCodeStatus (
       created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3)
 );
 
-INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("pending");
-INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("active");
-INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("error");
+INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("PENDING");
+INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("ACTIVE");
+INSERT INTO pix.DynamicInstantQrCodeStatus (enumerator) VALUES ("ERROR");
 
 CREATE TABLE pix.DynamicInstantQrCode (
       id                                BIGINT          NOT NULL        AUTO_INCREMENT PRIMARY KEY,

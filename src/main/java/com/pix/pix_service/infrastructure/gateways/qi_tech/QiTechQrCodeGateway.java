@@ -102,6 +102,6 @@ public class QiTechQrCodeGateway implements QrCodeGateway {
         if (type == PersonTypeInputDTO.NATURAL) return "natural";
         if (type == PersonTypeInputDTO.LEGAL) return "legal";
 
-        throw new IllegalArgumentException("Unsupported person type: " + type.name());
+        throw new IllegalArgumentException("Unsupported personType: " + type.name());
     }
 }

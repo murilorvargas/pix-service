@@ -50,8 +50,8 @@ public class DynamicInstantQrCodeService {
         logger.info("DynamicInstantQrCodeService.createDynamicInstantQrCode - Starting");
 
         DynamicInstantQrCodeStatus pendingDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
-                .findByEnumerator("pending")
-                .orElseThrow(() -> new RuntimeException("Status 'pending' not found!"));
+                .findByEnumerator("PENDING")
+                .orElseThrow(() -> new RuntimeException("Status 'PENDING' not found!"));
 
         unitOfWork.begin();
         QrCodePayerDTO payerDto = dto.qrCodePayer();
@@ -86,8 +86,8 @@ public class DynamicInstantQrCodeService {
             ));
 
             DynamicInstantQrCodeStatus activatedDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
-                .findByEnumerator("active")
-                .orElseThrow(() -> new RuntimeException("Status 'active' not found!"));
+                .findByEnumerator("ACTIVE")
+                .orElseThrow(() -> new RuntimeException("Status 'ACTIVE' not found!"));
 
             qrCode.setExternalKey(createDynamicInstantQrCodeOutputDTO.externalKey());
             qrCode.setBrCode(createDynamicInstantQrCodeOutputDTO.brCode());
@@ -97,9 +97,11 @@ public class DynamicInstantQrCodeService {
             dynamicInstantQrCodeRepository.save(qrCode);
             unitOfWork.commit();
         } catch (RuntimeException ex) {
+            logger.info("DynamicInstantQrCodeService.createDynamicInstantQrCode - Error while creating Dynamic Instant QR Code: {}", ex.getMessage(), ex);
+
             DynamicInstantQrCodeStatus errorDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
                 .findByEnumerator("error")
-                .orElseThrow(() -> new RuntimeException("Status 'error' not found!"));
+                .orElseThrow(() -> new RuntimeException("Status 'ERROR' not found!"));
 
             qrCode.setDynamicInstantQrCodeStatus(errorDynamicInstantQrCodeStatus);
 
@@ -109,7 +111,7 @@ public class DynamicInstantQrCodeService {
             throw ex;
         }
 
-        logger.info("DynamicInstantQrCodeService.createDynamicInstantQrCode -> Successfully finished");
+        logger.info("DynamicInstantQrCodeService.createDynamicInstantQrCode - Successfully finished");
         return qrCode;
     }
 
