@@ -5,7 +5,9 @@ import com.pix.pix_service.application.dtos.input.QrCodePayerDTO;
 import com.pix.pix_service.domain.UnitOfWork;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCode;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCodeStatus;
+import com.pix.pix_service.domain.entities.PixKey;
 import com.pix.pix_service.domain.entities.QrCodePayer;
+import com.pix.pix_service.domain.exceptions.PixKeyNotFoundException;
 import com.pix.pix_service.domain.gateways.QrCodeGateway;
 import com.pix.pix_service.domain.gateways.dtos.CreateDynamicInstantQrCodeInputDTO;
 import com.pix.pix_service.domain.gateways.dtos.CreateDynamicInstantQrCodeOutputDTO;
@@ -13,12 +15,14 @@ import com.pix.pix_service.domain.gateways.dtos.PersonTypeInputDTO;
 import com.pix.pix_service.domain.gateways.dtos.QrCodePayerInputDTO;
 import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeRepository;
 import com.pix.pix_service.domain.repositories.DynamicInstantQrCodeStatusRepository;
+import com.pix.pix_service.domain.repositories.PixKeyRepository;
 import com.pix.pix_service.domain.repositories.QrCodePayerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -27,6 +31,7 @@ public class DynamicInstantQrCodeService {
     private static final Logger logger = LoggerFactory.getLogger(DynamicInstantQrCodeService.class);
 
     private final UnitOfWork unitOfWork;
+    private final PixKeyRepository pixKeyRepository;
     private final DynamicInstantQrCodeStatusRepository dynamicInstantQrCodeStatusRepository;
     private final QrCodePayerRepository qrCodePayerRepository;
     private final DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository;
@@ -34,40 +39,51 @@ public class DynamicInstantQrCodeService {
 
     public DynamicInstantQrCodeService(
             UnitOfWork unitOfWork,
+            PixKeyRepository pixKeyRepository,
             DynamicInstantQrCodeStatusRepository dynamicInstantQrCodeStatusRepository,
             QrCodePayerRepository qrCodePayerRepository,
             DynamicInstantQrCodeRepository dynamicInstantQrCodeRepository,
             QrCodeGateway qrCodeGateway
     ) {
         this.unitOfWork = unitOfWork;
+        this.pixKeyRepository = pixKeyRepository;
         this.dynamicInstantQrCodeStatusRepository = dynamicInstantQrCodeStatusRepository;
         this.qrCodePayerRepository = qrCodePayerRepository;
         this.dynamicInstantQrCodeRepository = dynamicInstantQrCodeRepository;
         this.qrCodeGateway = qrCodeGateway;
     }
 
-    public DynamicInstantQrCode createDynamicInstantQrCode(CreateDynamicInstantQrCodeDTO dto) {
+    public DynamicInstantQrCode createDynamicInstantQrCode(String pixKeyPublicKey, CreateDynamicInstantQrCodeDTO dto) {
         logger.info("DynamicInstantQrCodeService.createDynamicInstantQrCode - Starting");
 
+        Optional<PixKey> optionalPixKey = pixKeyRepository.findByPublicKey(pixKeyPublicKey);
+        if (optionalPixKey.isEmpty()) {
+            logger.warn("DynamicInstantQrCodeService.createDynamicInstantQrCode - Pix Key not found for public key: {}", pixKeyPublicKey);
+            throw new PixKeyNotFoundException();
+        }
+
+        PixKey pixKey = optionalPixKey.get();
+
         DynamicInstantQrCodeStatus pendingDynamicInstantQrCodeStatus = dynamicInstantQrCodeStatusRepository
-                .findByEnumerator("PENDING")
-                .orElseThrow(() -> new RuntimeException("Status 'PENDING' not found!"));
+            .findByEnumerator("PENDING")
+            .orElseThrow(() -> new RuntimeException("Status 'PENDING' not found!"));
 
         unitOfWork.begin();
         QrCodePayerDTO payerDto = dto.qrCodePayer();
         QrCodePayer qrCodePayer = qrCodePayerRepository.save(new QrCodePayer(
-                UUID.randomUUID().toString(),
-                payerDto.name(),
-                payerDto.documentNumber()
+            UUID.randomUUID().toString(),
+            payerDto.name(),
+            payerDto.documentNumber()
         ));
         DynamicInstantQrCode qrCode = dynamicInstantQrCodeRepository.save(new DynamicInstantQrCode(
-                UUID.randomUUID().toString(),
-                dto.correlationId(),
-                dto.amount(),
-                dto.description(),
-                dto.expiration(),
-                qrCodePayer,
-                pendingDynamicInstantQrCodeStatus
+            UUID.randomUUID().toString(),
+            dto.correlationId(),
+            dto.amount(),
+            dto.description(),
+            dto.expiration(),
+            pixKey,
+            qrCodePayer,
+            pendingDynamicInstantQrCodeStatus
         ));
         unitOfWork.commit();
 

@@ -9,11 +9,7 @@ import com.pix.pix_service.api.schemas.response.PaginationSchema;
 import com.pix.pix_service.application.services.DynamicInstantQrCodeService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class DynamicInstantQrCodeController {
@@ -23,11 +19,11 @@ public class DynamicInstantQrCodeController {
         this.dynamic_instant_qr_code_service = dynamic_instant_qr_code_service;
     }
 
-    @PostMapping("/pix/dynamic_instant_qr_codes")
-    public ResponseEntity<CreateDynamicInstantQrCodeResponseSchema> createDynamicInstantQrCode(@Valid @RequestBody CreateDynamicInstantQrCodeSchema request) {
+    @PostMapping("/pix/pix_key/{pixKeyPublicKey}/dynamic_instant_qr_codes")
+    public ResponseEntity<CreateDynamicInstantQrCodeResponseSchema> createDynamicInstantQrCode(@PathVariable String pixKeyPublicKey, @Valid @RequestBody CreateDynamicInstantQrCodeSchema request) {
         var dto = request.toDTO();
 
-        var qrCode = this.dynamic_instant_qr_code_service.createDynamicInstantQrCode(dto);
+        var qrCode = this.dynamic_instant_qr_code_service.createDynamicInstantQrCode(pixKeyPublicKey, dto);
         var response = CreateDynamicInstantQrCodeResponseSchema.fromEntity(qrCode);
         return ResponseEntity.status(201).body(response);
     }

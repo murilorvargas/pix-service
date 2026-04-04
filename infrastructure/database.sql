@@ -68,6 +68,7 @@ CREATE TABLE pix.DynamicInstantQrCode (
       public_key        VARCHAR(36)     NOT NULL        UNIQUE,
       correlation_id                    VARCHAR(32)     NOT NULL        UNIQUE,
       external_key                      VARCHAR(36)     NULL            UNIQUE,
+      pix_key_id                        BIGINT          NOT NULL,
       qr_code_payer_id                  BIGINT          NOT NULL,
       amount                            DECIMAL(19, 2)  NOT NULL,
       description                       VARCHAR(140)    NULL,
@@ -78,6 +79,7 @@ CREATE TABLE pix.DynamicInstantQrCode (
       updated_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
       created_at                      TIMESTAMP(3)                    NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
 
+      CONSTRAINT fk_di_qr_code_pix_key FOREIGN KEY (pix_key_id) REFERENCES pix.PixKey (id),
       CONSTRAINT fk_di_qr_code_payer FOREIGN KEY (qr_code_payer_id) REFERENCES pix.QrCodePayer (id),
       CONSTRAINT fk_di_dynamic_instant_qr_code_status FOREIGN KEY (dynamic_instant_qr_code_status_id) REFERENCES pix.DynamicInstantQrCodeStatus (id)
 );

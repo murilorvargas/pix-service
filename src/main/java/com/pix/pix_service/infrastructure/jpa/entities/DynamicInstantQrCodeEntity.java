@@ -42,6 +42,10 @@ public class DynamicInstantQrCodeEntity {
     private LocalDateTime createdAt;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "pix_key_id", nullable = false)
+    private PixKeyEntity pixKey;
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "qr_code_payer_id", nullable = false)
     private QrCodePayerEntity qrCodePayer;
 
@@ -63,6 +67,7 @@ public class DynamicInstantQrCodeEntity {
             String brCode,
             LocalDateTime updatedAt,
             LocalDateTime createdAt,
+            PixKeyEntity pixKey,
             QrCodePayerEntity qrCodePayer,
             DynamicInstantQrCodeStatusEntity dynamicInstantQrCodeStatus
     ) {
@@ -76,6 +81,7 @@ public class DynamicInstantQrCodeEntity {
         this.brCode = brCode;
         this.updatedAt = updatedAt;
         this.createdAt = createdAt;
+        this.pixKey = pixKey;
         this.qrCodePayer = qrCodePayer;
         this.dynamicInstantQrCodeStatus = dynamicInstantQrCodeStatus;
     }
@@ -92,6 +98,7 @@ public class DynamicInstantQrCodeEntity {
                 domain.getBrCode(),
                 domain.getUpdatedAt(),
                 domain.getCreatedAt(),
+                PixKeyEntity.fromDomain(domain.getPixKey()),
                 QrCodePayerEntity.fromDomain(domain.getQrCodePayer()),
                 DynamicInstantQrCodeStatusEntity.fromDomain(domain.getDynamicInstantQrCodeStatus())
         );
@@ -109,6 +116,7 @@ public class DynamicInstantQrCodeEntity {
                 this.brCode,
                 this.updatedAt,
                 this.createdAt,
+                this.pixKey.toDomain(),
                 this.qrCodePayer.toDomain(),
                 this.dynamicInstantQrCodeStatus.toDomain()
         );
@@ -192,6 +200,14 @@ public class DynamicInstantQrCodeEntity {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public PixKeyEntity getPixKey() {
+        return pixKey;
+    }
+
+    public void setPixKey(PixKeyEntity pixKey) {
+        this.pixKey = pixKey;
     }
 
     public QrCodePayerEntity getQrCodePayer() {
