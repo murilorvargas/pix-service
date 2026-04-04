@@ -57,7 +57,7 @@ public class QiTechQrCodeGateway implements QrCodeGateway {
             "registration",
             input.qrCodePayer().documentNumber(),
             input.qrCodePayer().name(),
-            mapPersonType(input.qrCodePayer().personTypeDTO()),
+            mapPersonType(input.qrCodePayer().personType()),
             input.description(),
             input.correlationId(),
             "dynamic_instant"
