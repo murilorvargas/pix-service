@@ -43,6 +43,12 @@ public class PixKeyRepositoryImpl implements PixKeyRepository {
     }
 
     @Override
+    public Optional<PixKey> findByExternalKeyForUpdate(String externalKey) {
+        return jpaRepository.findByExternalKeyForUpdate(externalKey)
+            .map(PixKeyEntity::toDomain);
+    }
+
+    @Override
     public List<PixKey> findAll(String publicKey, int page, int pageSize) {
         var spec = PixKeySpecification.withFilters(publicKey);
         var pageable = PageRequest.of(page - 1, pageSize);

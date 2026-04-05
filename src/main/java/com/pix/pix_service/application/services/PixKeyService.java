@@ -1,11 +1,13 @@
 package com.pix.pix_service.application.services;
 
 import com.pix.pix_service.application.dtos.input.CreatePixKeyDTO;
+import com.pix.pix_service.application.dtos.input.UpdatePixKeyStatusDTO;
 import com.pix.pix_service.domain.UnitOfWork;
 import com.pix.pix_service.domain.entities.DynamicInstantQrCodeStatus;
 import com.pix.pix_service.domain.entities.PixKey;
 import com.pix.pix_service.domain.entities.PixKeyStatus;
 import com.pix.pix_service.domain.entities.PixKeyType;
+import com.pix.pix_service.domain.exceptions.PixKeyNotFoundException;
 import com.pix.pix_service.domain.gateways.PixKeyGateway;
 import com.pix.pix_service.domain.gateways.dtos.CreatePixKeyInputDTO;
 import com.pix.pix_service.domain.gateways.dtos.CreatePixKeyOutputDTO;
@@ -15,6 +17,8 @@ import com.pix.pix_service.domain.repositories.PixKeyStatusRepository;
 import com.pix.pix_service.domain.repositories.PixKeyTypeRepository;
 import org.slf4j.Logger;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public class PixKeyService {
@@ -87,5 +91,32 @@ public class PixKeyService {
 
         logger.info("PixKeyService.createPixKey - Successfully finished");
         return pixKey;
+    }
+
+    public PixKey updatePixKeyStatus(UpdatePixKeyStatusDTO dto) {
+        logger.info("PixKeyService.updatePixKeyStatus - Starting");
+
+        PixKeyStatus pixKeyStatus = pixKeyStatusRepository.findByEnumerator(dto.pixKeyStatus().name())
+            .orElseThrow(() -> new RuntimeException("PixKeyStatus '%s' not found!".formatted(dto.pixKeyStatus().name())));
+
+        unitOfWork.begin();
+
+        Optional<PixKey> optionalPixKey = pixKeyRepository.findByExternalKeyForUpdate(dto.externalKey());
+        if (optionalPixKey.isEmpty()) {
+            logger.warn("PixKeyService.updatePixKeyStatus - Pix Key not found for external key: {}", dto.externalKey());
+            throw new PixKeyNotFoundException();
+        }
+
+        PixKey pixKey = optionalPixKey.get();
+        pixKey.setPixKeyStatus(pixKeyStatus);
+
+        pixKeyRepository.save(pixKey);
+        unitOfWork.commit();
+
+        return pixKey;
+    }
+
+    public List<PixKey> listPixKeys(String publicKey, int page, int pageSize) {
+        return pixKeyRepository.findAll(publicKey, page, pageSize);
     }
 }

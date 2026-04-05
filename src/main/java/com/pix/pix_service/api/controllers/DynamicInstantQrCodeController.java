@@ -1,6 +1,5 @@
 package com.pix.pix_service.api.controllers;
 
-
 import com.pix.pix_service.api.schemas.request.CreateDynamicInstantQrCodeSchema;
 import com.pix.pix_service.api.schemas.response.CreateDynamicInstantQrCodeResponseSchema;
 import com.pix.pix_service.api.schemas.response.ListDynamicInstantQrCodeResponseSchema;
@@ -28,14 +27,16 @@ public class DynamicInstantQrCodeController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @GetMapping("/pix/dynamic_instant_qr_codes")
+    @GetMapping("/pix/pix_key/{pixKeyPublicKey}/dynamic_instant_qr_codes")
     public ResponseEntity<PaginatedDynamicInstantQrCodeResponseSchema> listDynamicInstantQrCodes(
+            @PathVariable String pixKeyPublicKey,
             @RequestParam(required = false) String correlationId,
             @RequestParam(required = false) String publicKey,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "30") Integer pageSize
     ) {
-        var qrCodes = this.dynamic_instant_qr_code_service.listDynamicInstantQrCodes(
+        var qrCodes = dynamic_instant_qr_code_service.listDynamicInstantQrCodes(
+                pixKeyPublicKey,
                 correlationId,
                 publicKey,
                 page,

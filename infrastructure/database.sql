@@ -21,6 +21,7 @@ CREATE TABLE pix.PixKeyStatus (
 );
 
 INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("PENDING");
+INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("FAILED");
 INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("ACTIVE");
 INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("INACTIVE");
 INSERT INTO pix.PixKeyStatus (enumerator) VALUES ("ERROR");

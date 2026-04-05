@@ -5,9 +5,14 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class DynamicInstantQrCodeSpecification {
 
-    public static Specification<DynamicInstantQrCodeEntity> withFilters(String correlationId, String publicKey) {
+    public static Specification<DynamicInstantQrCodeEntity> withFilters(Long pixKeyId, String correlationId, String publicKey) {
         return (root, query, criteriaBuilder) -> {
             var predicate = criteriaBuilder.conjunction();
+
+            if (pixKeyId != null) {
+                predicate = criteriaBuilder.and(predicate,
+                    criteriaBuilder.equal(root.get("pixKey").get("id"), pixKeyId));
+            }
 
             if (correlationId != null && !correlationId.isBlank()) {
                 predicate = criteriaBuilder.and(predicate,

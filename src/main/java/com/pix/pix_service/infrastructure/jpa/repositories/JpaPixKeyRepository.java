@@ -13,8 +13,12 @@ import java.util.Optional;
 public interface JpaPixKeyRepository extends JpaRepository<PixKeyEntity, Long>, JpaSpecificationExecutor<PixKeyEntity> {
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("SELECT d FROM PixKey d WHERE d.id = :id")
+    @Query("SELECT p FROM PixKey p WHERE p.id = :id")
     Optional<PixKeyEntity> findByIdForUpdate(@Param("id") Long id);
 
     Optional<PixKeyEntity> findByPublicKey(String publicKey);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("SELECT d FROM PixKey d WHERE d.external_key = :externalKey")
+    Optional<PixKeyEntity> findByExternalKeyForUpdate(@Param("externalKey") String externalKey);
 }

@@ -131,7 +131,20 @@ public class DynamicInstantQrCodeService {
         return qrCode;
     }
 
-    public List<DynamicInstantQrCode> listDynamicInstantQrCodes(String correlationId, String publicKey, int page, int pageSize) {
-        return dynamicInstantQrCodeRepository.findAll(correlationId, publicKey, page, pageSize);
+    public List<DynamicInstantQrCode> listDynamicInstantQrCodes(
+        String pixKeyPublicKey,
+        String correlationId,
+        String publicKey,
+        int page,
+        int pageSize
+    ) {
+        Optional<PixKey> optionalPixKey = pixKeyRepository.findByPublicKey(pixKeyPublicKey);
+        if (optionalPixKey.isEmpty()) {
+            logger.warn("DynamicInstantQrCodeService.listDynamicInstantQrCodes - Pix Key not found for public key: {}", pixKeyPublicKey);
+            throw new PixKeyNotFoundException();
+        }
+
+        PixKey pixKey = optionalPixKey.get();
+        return dynamicInstantQrCodeRepository.findAll(pixKey, correlationId, publicKey, page, pageSize);
     }
 }

@@ -15,5 +15,7 @@ public interface PixKeyRepository {
 
     Optional<PixKey> findByPublicKey(String publicKey);
 
+    Optional<PixKey> findByExternalKeyForUpdate(String externalKey);
+
     List<PixKey> findAll(String publicKey, int page, int pageSize);
 }
